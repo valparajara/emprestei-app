@@ -25,4 +25,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
       templateUrl: 'loans.html',
       controller: 'LoansCtrl'
     })
+
+    $urlRouterProvider.otherwise('/loans');
+
 })

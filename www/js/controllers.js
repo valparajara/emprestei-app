@@ -1,5 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('LoansCtrl', function($scope, LoanFactory) {
-  $scope.loans = LoanFactory.loans();
+   LoanFactory.getLoans().then(function(response){
+      $scope.loans = response.data
+    })
 })
