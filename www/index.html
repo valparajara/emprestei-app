@@ -26,20 +26,26 @@
   </head>
   <body ng-app="starter">
     <ion-pane>
-      <ion-header-bar class="bar-stable">
+      <ion-header-bar class="bar bar-header">
+        <a class="button button-calm" href="#/loans">
+          <i class="icon ion-chevron-left ligth"></i>
+        </a>
         <h1 class="title">Emprestei</h1>
+        <a class="button button-calm" href="#/loan-new">
+          <i class="icon ion-compose ligth"></i>
+        </a>
       </ion-header-bar>
 
       <ion-nav-view>
-
-      </ion>
+      </ion-nav-view>
     </ion-pane>
 
+    <!-- List of loans -->
     <script id="loans.html" type="text/ng-template">
       <ion-view title="Loans">
         <ion-content>
           <div ng-repeat="loan in loans">
-            <div class="card">
+            <div class="card" >
               <div class="item item-text-wrap">
                 <h2>{{loan.friend_email}}</h2>
                 <p>{{loan.loaned_item}}</p>
@@ -50,8 +56,8 @@
                     <i class="icon ion-checkmark"></i>
                     Devolvido
                   </a>
-                  <a class="tab-item" href="#">
-                    <i class="icon ion-edit"></i>
+                  <a class="tab-item" ng-click="edit(loan)">
+                    <i class="icon ion-edit" ></i>
                     Editar
                   </a>
                 </div>
@@ -59,6 +65,48 @@
             </div>
           </div>
         </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- Form create loans -->
+    <script id="loan-new.html" type="text/ng-template">
+      <ion-view title="Novo empréstimo">
+      <form name="form" novalidate>
+        <ion-content>
+          <div class="list" ng-controller="LoanNewCtrl">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email do amigo</span>
+              <input type="text" name="friend_email" placeholder="foo@bar.com" ng-model="loan.item.friend_email" required="">
+              <div ng-show="form.$submitted || form.friend_email.$touched">
+                <span class="assertive" ng-show="form.friend_email.$error.required">Email é obrigatório.</span>
+                <span class="assertive" ng-show="form.friend_email.$error.email">Esse email não é valido.</span>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Nome</span>
+              <input type="text" placeholder="Foo" ng-model="loan.item.friend_name">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Objeto emprestado</span>
+              <input type="text" name="loaned_item" placeholder="Meu objeto emprestado" ng-model="loan.item.loaned_item" required="">
+               <div ng-show="form.$submitted || form.loaned_item.$touched">
+                <span class="assertive" ng-show="form.loaned_item.$error.required">Informe o objeto emprestado.</span>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
+            <span class="input-label">Notificações:</span>
+            <div ng-init="loan.item.notification='2'" />
+              <ion-radio ng-model="loan.item.notification" ng-value="1">Um mês </ion-radio>
+              <ion-radio ng-model="loan.item.notification" ng-value="2" >Quinze dias </ion-radio>
+              <ion-radio ng-model="loan.item.notification" ng-value="3">Uma semana</ion-radio>
+            </div>
+            </label>
+            <button class="button button-block button-calm" ng-click="createLoan()">
+              Novo empréstimo
+            </button>
+          </div>
+        </ion-content>
+        </form>
       </ion-view>
     </script>
   </body>

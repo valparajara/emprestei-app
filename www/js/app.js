@@ -18,7 +18,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+  $httpProvider.defaults.headers.post = { 'Content-Type': 'application/json; charset=UTF-8' };
+  $httpProvider.defaults.headers.put = { 'Content-Type': 'application/json; charset=UTF-8' };
+
   $stateProvider
     .state('loans', {
       url: '/loans',
@@ -26,6 +30,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
       controller: 'LoansCtrl'
     })
 
-    $urlRouterProvider.otherwise('/loans');
+    .state('loan-new', {
+      url: '/loan-new',
+      templateUrl: 'loan-new.html',
+      controller: 'LoanNewCtrl'
+    })
+
+  $urlRouterProvider.otherwise('/loans');
 
 })
+
+.run(function ($rootScope){
+  $rootScope.endPoint = 'http://localhost:3000'
+});
