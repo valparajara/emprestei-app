@@ -1,1 +1,35 @@
 /* Empty. Add your own CSS if you like */
+
+.gray {
+ color: #afaeae;
+}
+
+.light-beige{
+  background-color: #FFE5CC
+}
+
+.beige {
+  color: #E5B88A;
+}
+
+.dark-beige {
+  color: #A67453
+}
+
+.wood {
+  color: #401600;
+}
+
+.padding-radio {
+  padding: 17px;
+}
+
+.padding-p {
+  padding: 0px 0px 5px 0px;
+}
+
+.button.button-wood {
+  border-color: #A67453;
+  background-color: #401600;
+  color: #FFE5CC;
+}

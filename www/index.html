@@ -26,19 +26,38 @@
   </head>
   <body ng-app="starter">
     <ion-pane>
-      <ion-header-bar class="bar bar-header">
-        <a class="button button-calm" href="#/loans">
-          <i class="icon ion-chevron-left ligth"></i>
-        </a>
-        <h1 class="title">Emprestei</h1>
-        <a class="button button-calm" href="#/loan-new">
-          <i class="icon ion-compose ligth"></i>
-        </a>
+      <ion-header-bar class="bar bar-header light-beige">
+        <h1 class="title wood">Emprestei</h1>
       </ion-header-bar>
 
       <ion-nav-view>
       </ion-nav-view>
     </ion-pane>
+
+    <!-- Home -->
+    <script id="login.html" type="text/ng-template">
+      <ion-view view-title="Login" name="login-view">
+        <div class="alert alert-danger" ng-show="error">
+          Problemas em realizar o login. Tente novamente!
+        </div>
+        <form role="form">
+          <ion-content class="padding">
+              <p class="gray padding-top">Bem vindo ao Emprestei!</p>
+              <p class="gray padding-p">Seu gerenciador de empréstimos que não te deixa esquecer!</p>
+              <div class="list list-inset" ng-controller="LoginCtrl">
+                  <label class="item item-input">
+                      <input type="text" placeholder="Email" ng-model="login.user.email">
+                  </label>
+                  <label class="item item-input">
+                      <input type="password" placeholder="Senha" ng-model="login.user.password">
+                  </label>
+              </div>
+              <button class="button button-block button-wood" ng-click="login()">Login</button>
+              <p class="gray padding-p"> Novo por aqui? <a href="#" class="btn btn-link wood">Cadastra-se aqui!</a></p>
+          </ion-content>
+        </form>
+      </ion-view>
+    </script>
 
     <!-- List of loans -->
     <script id="loans.html" type="text/ng-template">
@@ -93,7 +112,7 @@
                 <span class="assertive" ng-show="form.loaned_item.$error.required">Informe o objeto emprestado.</span>
               </div>
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-radio padding-radio">
             <span class="input-label">Notificações:</span>
             <div ng-init="loan.item.notification='2'" />
               <ion-radio ng-model="loan.item.notification" ng-value="1">Um mês </ion-radio>
@@ -109,5 +128,21 @@
         </form>
       </ion-view>
     </script>
+    <div class="bar bar-footer light-beige">
+      <div class="tabs tabs-icon-left light-beige">
+        <a class="tab-item wood" href="#/loans">
+          <i class="icon ion-home wood"></i>
+          Início
+        </a>
+        <a class="tab-item wood" href="#/loan-new">
+          <i class="icon ion-compose wood"></i>
+          Novo
+        </a>
+        <a class="tab-item wood" href="#">
+          <i class="icon ion-log-out wood"></i>
+          Sair
+        </a>
+      </div>
+    </div>
   </body>
 </html>
