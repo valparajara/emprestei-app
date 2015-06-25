@@ -3,7 +3,8 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories', 'ngStorage',
+    'ngRoute'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -18,12 +19,39 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, $routeProvider) {
 
-  $httpProvider.defaults.headers.post = { 'Content-Type': 'application/json; charset=UTF-8' };
-  $httpProvider.defaults.headers.put = { 'Content-Type': 'application/json; charset=UTF-8' };
+  $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
+    return {
+        'request': function (config) {
+            config.headers = config.headers || {};
+            if ($localStorage.token) {
+                config.headers.Authorization = 'params ' + $localStorage.token;
+            }
+            return config;
+        },
+        'responseError': function(response) {
+            if(response.status === 401 || response.status === 403) {
+                $location.path('/signin');
+            }
+            return $q.reject(response);
+        }
+      };
+    }]);
 
   $stateProvider
+    .state('home', {
+      url: '/',
+      templateUrl: 'signin.html',
+      controller: 'HomeCtrl'
+    })
+
+    .state('signin', {
+      url: '/sign_in',
+      templateUrl: 'signin.html',
+      controller: 'HomeCtrl'
+    })
+
     .state('loans', {
       url: '/loans',
       templateUrl: 'loans.html',
@@ -36,8 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories'])
       controller: 'LoanNewCtrl'
     })
 
-  $urlRouterProvider.otherwise('/loans');
-
+  $urlRouterProvider.otherwise('/sign_in');
 })
 
 .run(function ($rootScope){

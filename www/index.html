@@ -18,6 +18,10 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- ngStorage and ngRoutes-->
+    <script src="lib/ngStorage.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/factories.js"></script>
@@ -35,27 +39,25 @@
     </ion-pane>
 
     <!-- Home -->
-    <script id="login.html" type="text/ng-template">
-      <ion-view view-title="Login" name="login-view">
-        <div class="alert alert-danger" ng-show="error">
-          Problemas em realizar o login. Tente novamente!
-        </div>
-        <form role="form">
-          <ion-content class="padding">
-              <p class="gray padding-top">Bem vindo ao Emprestei!</p>
-              <p class="gray padding-p">Seu gerenciador de empréstimos que não te deixa esquecer!</p>
-              <div class="list list-inset" ng-controller="LoginCtrl">
-                  <label class="item item-input">
-                      <input type="text" placeholder="Email" ng-model="login.user.email">
-                  </label>
-                  <label class="item item-input">
-                      <input type="password" placeholder="Senha" ng-model="login.user.password">
-                  </label>
-              </div>
-              <button class="button button-block button-wood" ng-click="login()">Login</button>
-              <p class="gray padding-p"> Novo por aqui? <a href="#" class="btn btn-link wood">Cadastra-se aqui!</a></p>
-          </ion-content>
-        </form>
+    <script id="signin.html" type="text/ng-template">
+      <ion-view view-title="Login" name="signin">
+        <ion-content class="padding">
+          <form role="form">
+            <p class="gray padding-top">Bem vindo ao Emprestei!</p>
+            <p class="gray padding-p">Seu gerenciador de empréstimos que não te deixa esquecer!</p>
+            <div class="list list-inset">
+              <label class="item item-input">
+                <input type="email" placeholder="Email" id="email" ng-model="user.email">
+              </label>
+              <label class="item item-input">
+                  <input type="password" placeholder="Senha" id="password" ng-model="user.password">
+              </label>
+            </div>
+            <button class="button button-block button-wood" ng-click="signin()">Login</button>
+            <p class="gray padding-p center"> Novo por aqui? <a href="#" class="btn btn-link wood">Cadastre-se!</a></p>
+          </form>
+        </ion-content>
+        {{ email }}
       </ion-view>
     </script>
 
@@ -128,7 +130,7 @@
         </form>
       </ion-view>
     </script>
-    <div class="bar bar-footer light-beige">
+    <!-- <div class="bar bar-footer light-beige">
       <div class="tabs tabs-icon-left light-beige">
         <a class="tab-item wood" href="#/loans">
           <i class="icon ion-home wood"></i>
@@ -143,6 +145,6 @@
           Sair
         </a>
       </div>
-    </div>
+    </div> -->
   </body>
 </html>
