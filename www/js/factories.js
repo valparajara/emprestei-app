@@ -1,21 +1,39 @@
 angular.module('starter.factories', [])
 
-.factory('LoanFactory', function($http, User) {
-  var loans = [];
+.constant('BaseApiUrl', "http://emprestei-api.herokuapp.com/")
 
-  return {
+.service('Loans', function($http, User, BaseApiUrl) {
+
+  var Loans = {
+    initialize: function () {
+      return $http.get(BaseApiUrl + "/loans.json", { params: { access_token: User.access_token } })
+                  .success(function (data) {
+                    Loans.collection = data
+                  })
+    },
+
+    add: function (item) {
+      return $http.post(BaseApiUrl + "/loans.json", { loan: item, access_token: User.access_token})
+                  .success(function(data) {
+                    Loans.collection.splice(0, 0, data.loan)
+                  })
+                  .error(function(response){
+                    console.error(response.data);
+                  })
+    },
+
     getLoans: function () {
-      return $http.get("http://localhost:3000/loans.json?access_token=" + User.access_token)
+      return $http.get(BaseApiUrl + "/loans.json", { params: { access_token: User.access_token } })
     }
   }
+
+  return Loans
 })
 
-.factory('User', function($http, $localStorage){
-  var baseUrl = "http://localhost:3000/";
-
+.service('User', function($http, $localStorage, BaseApiUrl){
   return {
     signin: function(user_params, success, error) {
-        $http.post(baseUrl + '/sign_in.json', user_params).success(success).error(error)
+        $http.post(BaseApiUrl + '/sign_in.json', user_params).success(success).error(error)
     }
   };
 });

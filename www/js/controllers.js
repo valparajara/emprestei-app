@@ -1,6 +1,7 @@
 angular.module('starter.controllers', ['ngStorage'])
 
 .controller('MainCtrl', function($scope, $http, $state) {
+
   $scope.shouldHideFooter = function () {
     // hack! descobrir como pegar corretamente o state/rota atual usando stateProvider/state
     if (location.href.split('/')[location.href.split('/').length -1] == "sign_in" ) {
@@ -28,7 +29,7 @@ angular.module('starter.controllers', ['ngStorage'])
   }
 })
 
-.controller('LoansCtrl', function($scope, LoanFactory, $timeout, $ionicLoading) {
+.controller('LoansCtrl', function($scope, Loans, $timeout, $ionicLoading) {
 
   $ionicLoading.show({
     content: 'Loading',
@@ -38,21 +39,19 @@ angular.module('starter.controllers', ['ngStorage'])
     showDelay: 0
   });
 
-   LoanFactory.getLoans().then(function(response){
-      $ionicLoading.hide();
-      $scope.loans = response.data
-    })
+  Loans.initialize().then(function () {
+    $ionicLoading.hide()
+  })
+
+  $scope.loans = Loans
 })
 
-.controller('LoanNewCtrl', function($scope, $http, User, $state) {
+.controller('LoanNewCtrl', function($scope, $http, User, Loans, $state) {
  $scope.loan = { item: {} };
 
   $scope.createLoan = function(){
-    $http.post('http://localhost:3000/loans.json', { loan: $scope.loan.item, access_token: User.access_token}).then(function(response){
-      console.log(response.data);
+    Loans.add($scope.loan.item).success(function () {
       $state.go('loans')
-    }, function(response){
-      console.error(response.data);
-    });
+    })
   }
 })
