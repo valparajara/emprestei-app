@@ -28,7 +28,7 @@
     <script src="js/controllers.js"></script>
 
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="MainCtrl">
     <ion-pane>
       <ion-header-bar class="bar bar-header light-beige">
         <h1 class="title wood">Emprestei</h1>
@@ -36,6 +36,23 @@
 
       <ion-nav-view>
       </ion-nav-view>
+
+      <div ng-hide="shouldHideFooter()" class="bar bar-footer light-beige">
+        <div class="tabs tabs-icon-left light-beige">
+          <a class="tab-item wood" href="#/loans">
+            <i class="icon ion-home wood"></i>
+            Início
+          </a>
+          <a class="tab-item wood" href="#/loan-new">
+            <i class="icon ion-compose wood"></i>
+            Novo
+          </a>
+          <a class="tab-item wood" href="#">
+            <i class="icon ion-log-out wood"></i>
+            Sair
+          </a>
+        </div>
+      </div>
     </ion-pane>
 
     <!-- Home -->
@@ -122,7 +139,7 @@
               <ion-radio ng-model="loan.item.notification" ng-value="3">Uma semana</ion-radio>
             </div>
             </label>
-            <button class="button button-block button-calm" ng-click="createLoan()">
+            <button class="button button-block button-wood" ng-click="createLoan()">
               Novo empréstimo
             </button>
           </div>
@@ -130,21 +147,5 @@
         </form>
       </ion-view>
     </script>
-    <!-- <div class="bar bar-footer light-beige">
-      <div class="tabs tabs-icon-left light-beige">
-        <a class="tab-item wood" href="#/loans">
-          <i class="icon ion-home wood"></i>
-          Início
-        </a>
-        <a class="tab-item wood" href="#/loan-new">
-          <i class="icon ion-compose wood"></i>
-          Novo
-        </a>
-        <a class="tab-item wood" href="#">
-          <i class="icon ion-log-out wood"></i>
-          Sair
-        </a>
-      </div>
-    </div> -->
   </body>
 </html>
