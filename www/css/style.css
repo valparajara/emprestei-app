@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 
 .gray {
- color: #afaeae;
+  color: #afaeae;
 }
 
 .light-beige{
-  background-color: #FFE5CC
+  color: #FFE5CC
 }
 
 .beige {
@@ -13,11 +13,19 @@
 }
 
 .dark-beige {
-  color: #A67453
+  color: #A67453;
 }
 
 .wood {
   color: #401600;
+}
+
+.ligth-backgroud {
+  background-color: #FFE5CC;
+}
+
+.wood-backgroud {
+  background-color: #401600
 }
 
 .padding-radio {
@@ -37,6 +45,7 @@
 .center {
   text-align: center
 }
+
 .bar-footer {
 height: 49px;
 }
