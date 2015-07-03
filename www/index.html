@@ -68,8 +68,6 @@
             <div class="list list-inset" >
               <label class="item item-input">
                 <input type="email" name="email" placeholder="Email" id="email" ng-model="user.email" required>
-                <span ng-show="form.email.$error.required">Email inválido</span>
-                <span ng-show="form.email.$error.email">Email inválido</span>
               </label>
               <label class="item item-input">
                   <input type="password" placeholder="Senha" id="password" ng-model="user.password">
@@ -92,11 +90,18 @@
           <div class="list" ng-controller="UserNewCtrl">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Email</span>
-              <input type="text" name="email" placeholder="foo@bar.com" ng-model="user.item.email">
+              <input type="text" name="email" placeholder="foo@bar.com" ng-model="user.item.email" required="">
+              <div ng-show="form.$submitted || form.friend_email.$touched">
+                <span class="assertive" ng-show="form.email.$error.required">Email é obrigatório.</span>
+                <span class="assertive" ng-show="form.email.$error.email">Esse email não é valido.</span>
+              </div>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Senha</span>
               <input type="password" placeholder="Senha" ng-model="user.item.password">
+              <div ng-show="form.$submitted || form.friend_email.$touched" required="">
+                <span class="assertive" ng-show="form.email.$error.required">Senha é obrigatória.</span>
+              </div>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Confirmação de senha</span>
@@ -116,13 +121,13 @@
       <ion-view title="Loans">
         <ion-content>
           <div ng-if="loans.collection.length == 0">
-            <p class="gray padding-top">Você não tem empréstimos cadastrados.</p>
+            <p class="gray padding center">Você não tem empréstimos cadastrados.</p>
           </div>
           <div ng-repeat="loan in loans.collection">
             <div class="card">
               <div class="item item-text-wrap">
-                <h2>{{loan.friend_email}}</h2>
-                <p>{{loan.loaned_item}}</p>
+                <h2>{{loan.loaned_item}}</h2>
+                <p>{{loan.friend_email}}</p>
                 <p>{{loan.friend_name}}   Desde: {{loan.created_at | date:"dd/MM/yyyy" }}</p>
 
                 <div class="item tabs tabs-secondary tabs-icon-left">
@@ -149,6 +154,13 @@
         <ion-content>
           <div class="list" ng-controller="LoanNewCtrl">
             <label class="item item-input item-stacked-label">
+              <span class="input-label">Objeto emprestado</span>
+              <input type="text" name="loaned_item" placeholder="Meu objeto emprestado" ng-model="loan.item.loaned_item" required="">
+              <div ng-show="form.$submitted || form.loaned_item.$touched">
+                <span class="assertive" ng-show="form.loaned_item.$error.required">Informe o objeto emprestado.</span>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
               <span class="input-label">Email do amigo</span>
               <input type="text" name="friend_email" placeholder="foo@bar.com" ng-model="loan.item.friend_email" required="">
               <div ng-show="form.$submitted || form.friend_email.$touched">
@@ -157,15 +169,8 @@
               </div>
             </label>
             <label class="item item-input item-stacked-label">
-              <span class="input-label">Nome</span>
+              <span class="input-label">Nome do amigo</span>
               <input type="text" placeholder="Foo" ng-model="loan.item.friend_name">
-            </label>
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Objeto emprestado</span>
-              <input type="text" name="loaned_item" placeholder="Meu objeto emprestado" ng-model="loan.item.loaned_item" required="">
-               <div ng-show="form.$submitted || form.loaned_item.$touched">
-                <span class="assertive" ng-show="form.loaned_item.$error.required">Informe o objeto emprestado.</span>
-              </div>
             </label>
             <label class="item item-radio padding-radio">
             <span class="input-label">Notificações:</span>
