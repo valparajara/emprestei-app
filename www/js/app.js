@@ -52,6 +52,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories', 
       controller: 'HomeCtrl'
     })
 
+    .state('user-new', {
+      url: '/user-new',
+      templateUrl: 'user-new.html',
+      controller: 'UserNewCtrl'
+    })
+
     .state('loans', {
       url: '/loans',
       templateUrl: 'loans.html',
@@ -64,9 +70,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories', 
       controller: 'LoanNewCtrl'
     })
 
+    .state('loan-edit', {
+      url: '/loan-edit/:loan_id',
+      templateUrl: 'loan-edit.html',
+      controller: 'LoanEditCtrl'
+    })
+
   $urlRouterProvider.otherwise('/sign_in');
 })
-
-.run(function ($rootScope){
-  $rootScope.endPoint = 'http://localhost:3000'
-});

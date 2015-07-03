@@ -8,6 +8,8 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+   <link rel="stylesheet" type="text/css" https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Boogaloo>
+
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -24,7 +26,7 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/factories.js"></script>
+    <script src="js/services.js"></script>
     <script src="js/controllers.js"></script>
 
   </head>
@@ -59,12 +61,15 @@
     <script id="signin.html" type="text/ng-template">
       <ion-view view-title="Login" name="signin">
         <ion-content class="padding">
-          <form role="form">
+          <form role="form" novalidate>
             <p class="gray padding-top">Bem vindo ao Emprestei!</p>
             <p class="gray padding-p">Seu gerenciador de empréstimos que não te deixa esquecer!</p>
-            <div class="list list-inset">
+            <p class="wood" >{{ error }}</p>
+            <div class="list list-inset" >
               <label class="item item-input">
-                <input type="email" placeholder="Email" id="email" ng-model="user.email">
+                <input type="email" name="email" placeholder="Email" id="email" ng-model="user.email" required>
+                <span ng-show="form.email.$error.required">Email inválido</span>
+                <span ng-show="form.email.$error.email">Email inválido</span>
               </label>
               <label class="item item-input">
                   <input type="password" placeholder="Senha" id="password" ng-model="user.password">
@@ -72,9 +77,37 @@
             </div>
             <button class="button button-block button-wood" ng-click="signin()">Login</button>
           </form>
-          <p class="gray padding-p center"> Novo por aqui? <a href="#" class="btn btn-link wood">Cadastre-se!</a></p>
+          <p class="gray padding-p center"> Novo por aqui? <a href="#/user-new" class="btn btn-link wood">Cadastre-se!</a></p>
         </ion-content>
+      </ion-view>
+    </script>
 
+    <!-- Form Create new user -->
+    <script id="user-new.html" type="text/ng-template">
+      <ion-view title="Novo usuário">
+      <form name="form" novalidate>
+        <ion-content class="padding">
+          <p class="gray padding-p">Ao se cadastrar, você em apenas 15 segundos, cadastra seu objeto emprestado e nós ficamos encarregado de te lembrar em pegar de volta! Vamos lá, é rápido!</p>
+          <p class="wood" >{{ user.error }}</p>
+          <div class="list" ng-controller="UserNewCtrl">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email</span>
+              <input type="text" name="email" placeholder="foo@bar.com" ng-model="user.item.email">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Senha</span>
+              <input type="password" placeholder="Senha" ng-model="user.item.password">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Confirmação de senha</span>
+              <input type="password" placeholder="Confirmação de senha">
+            </label>
+            <button class="button button-block button-wood" ng-click="createUser()">
+              Criar
+            </button>
+          </div>
+        </ion-content>
+        </form>
       </ion-view>
     </script>
 
@@ -82,19 +115,22 @@
     <script id="loans.html" type="text/ng-template">
       <ion-view title="Loans">
         <ion-content>
+          <div ng-if="loans.collection.length == 0">
+            <p class="gray padding-top">Você não tem empréstimos cadastrados.</p>
+          </div>
           <div ng-repeat="loan in loans.collection">
             <div class="card">
               <div class="item item-text-wrap">
                 <h2>{{loan.friend_email}}</h2>
                 <p>{{loan.loaned_item}}</p>
-                <p>{{loan.friend_name}} Desde: {{loan.created_at | date:"dd/MM/yyyy }}</p>
+                <p>{{loan.friend_name}}   Desde: {{loan.created_at | date:"dd/MM/yyyy" }}</p>
 
                 <div class="item tabs tabs-secondary tabs-icon-left">
                   <a class="tab-item wood" href="#">
                     <i class="icon ion-checkmark wood"></i>
                     Devolvido
                   </a>
-                  <a class="tab-item wood" ng-click="edit(loan)">
+                  <a class="tab-item wood" href="#/loan-edit/{{loan.id}}">
                     <i class="icon ion-edit wood" ></i>
                     Editar
                   </a>
@@ -106,7 +142,7 @@
       </ion-view>
     </script>
 
-    <!-- Form create loans -->
+    <!-- Form create new loan -->
     <script id="loan-new.html" type="text/ng-template">
       <ion-view title="Novo empréstimo">
       <form name="form" novalidate>
@@ -141,6 +177,48 @@
             </label>
             <button class="button button-block button-wood" ng-click="createLoan()">
               Novo empréstimo
+            </button>
+          </div>
+        </ion-content>
+        </form>
+      </ion-view>
+    </script>
+
+    <!-- Form edit loan -->
+    <script id="loan-edit.html" type="text/ng-template">
+      <ion-view title="Edição de empréstimo">
+      <form name="form" novalidate>
+        <ion-content>
+          <div class="list" ng-controller="LoanEditCtrl">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email do amigo</span>
+              <input type="text" name="friend_email" ng-model="loan.friend_email" required="">
+              <div ng-show="form.$submitted || form.friend_email.$touched">
+                <span class="assertive" ng-show="form.friend_email.$error.required">Email é obrigatório.</span>
+                <span class="assertive" ng-show="form.friend_email.$error.email">Esse email não é valido.</span>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Nome</span>
+              <input type="text" ng-model="loan.friend_name">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Objeto emprestado</span>
+              <input type="text" name="loaned_item" ng-model="loan.loaned_item" required="">
+               <div ng-show="form.$submitted || form.loaned_item.$touched">
+                <span class="assertive" ng-show="form.loaned_item.$error.required">Informe o objeto emprestado.</span>
+              </div>
+            </label>
+            <label class="item item-radio padding-radio">
+            <span class="input-label">Notificações:</span>
+            <div ng-init="loan.notification='2'" />
+              <ion-radio ng-model="loan.notification" ng-value="1">Um mês </ion-radio>
+              <ion-radio ng-model="loan.notification" ng-value="2" >Quinze dias </ion-radio>
+              <ion-radio ng-model="loan.notification" ng-value="3">Uma semana</ion-radio>
+            </div>
+            </label>
+            <button class="button button-block button-wood" ng-click="editLoan()">
+              Salvar alterações
             </button>
           </div>
         </ion-content>

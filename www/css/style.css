@@ -1,5 +1,10 @@
 /* Empty. Add your own CSS if you like */
 
+body, a, p, h1, h2 {
+  font-family: 'Boogaloo', Arial, serif;
+  font-weight: 400;
+}
+
 .gray {
   color: #afaeae;
 }
@@ -40,6 +45,8 @@
   border-color: #A67453;
   background-color: #401600;
   color: #FFE5CC;
+  font-family: 'Boogaloo', Arial, serif;
+  font-weight: 400;
 }
 
 .center {
