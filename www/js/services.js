@@ -16,7 +16,7 @@ angular.module('starter.factories', [])
     add: function (item) {
       return $http.post(BaseApiUrl + "/loans.json", { loan: item, access_token: User.access_token})
                   .success(function(data) {
-                    Loans.collection.splice(0, 0, data.loan)
+                    Loans.collection.splice(0, 0, data)
                   })
                   .error(function(response){
                     console.error(response.data);

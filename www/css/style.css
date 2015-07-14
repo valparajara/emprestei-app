@@ -50,9 +50,10 @@ body, a, p, h1, h2 {
 }
 
 .center {
-  text-align: center
+  text-align: center;
+  padding-top: 100px;
 }
 
 .bar-footer {
-height: 49px;
+  height: 49px;
 }
