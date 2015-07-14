@@ -49,7 +49,7 @@
             <i class="icon ion-compose wood"></i>
             Novo
           </a>
-          <a class="tab-item wood" href="#">
+          <a class="tab-item wood" href="#/logout">
             <i class="icon ion-log-out wood"></i>
             Sair
           </a>
@@ -131,7 +131,7 @@
                 <p>{{loan.friend_name}}   Desde: {{loan.created_at | date:"dd/MM/yyyy" }}</p>
 
                 <div class="item tabs tabs-secondary tabs-icon-left">
-                  <a class="tab-item wood" href="#">
+                  <a class="tab-item wood" ng-click="setReturned(loan.id)">
                     <i class="icon ion-checkmark wood"></i>
                     Devolvido
                   </a>

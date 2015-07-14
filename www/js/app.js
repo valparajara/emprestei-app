@@ -52,6 +52,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories', 
       controller: 'HomeCtrl'
     })
 
+    .state('logout', {
+      url: '/logout',
+      templateUrl: 'signin.html',
+      controller: 'HomeCtrl'
+    })
+
     .state('user-new', {
       url: '/user-new',
       templateUrl: 'user-new.html',
@@ -74,6 +80,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.factories', 
       url: '/loan-edit/:loan_id',
       templateUrl: 'loan-edit.html',
       controller: 'LoanEditCtrl'
+    })
+
+    .state('returned', {
+      url: '/:loan_id/return',
+      // templateUrl: 'loans.html',
+      controller: 'HomeCtrl'
     })
 
   $urlRouterProvider.otherwise('/sign_in');

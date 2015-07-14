@@ -5,7 +5,8 @@ angular.module('starter.controllers', ['ngStorage'])
   $scope.shouldHideFooter = function () {
     // hack! descobrir como pegar corretamente o state/rota atual usando stateProvider/state
     if (location.href.split('/')[location.href.split('/').length -1] == "sign_in"
-      || location.href.split('/')[location.href.split('/').length -1] == "user-new"  ) {
+      || location.href.split('/')[location.href.split('/').length -1] == "user-new"
+      || location.href.split('/')[location.href.split('/').length -1] == "logout"  ) {
       return true
     }
   }
@@ -24,13 +25,12 @@ angular.module('starter.controllers', ['ngStorage'])
       $state.go('loans')
 
     }, function() {
-      // response.error ?!?!
       $scope.error = 'Falha ao tentar acessar';
     })
   }
 })
 
-.controller('LoansCtrl', function($scope, Loans, $timeout, $ionicLoading) {
+.controller('LoansCtrl', function($scope, Loans, $timeout, $ionicLoading, User, $state) {
 
   $ionicLoading.show({
     content: 'Loading',
@@ -45,6 +45,12 @@ angular.module('starter.controllers', ['ngStorage'])
   })
 
   $scope.loans = Loans
+
+  $scope.setReturned = function(id){
+    Loans.setReturned(id).success(function(loan){
+      $state.go('loans')
+    })
+  }
 })
 
 .controller('LoanNewCtrl', function($scope, $http, User, Loans, $state) {
@@ -52,6 +58,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
   $scope.createLoan = function(){
     Loans.add($scope.loan.item).success(function () {
+
       $state.go('loans')
     })
   }
@@ -74,16 +81,14 @@ angular.module('starter.controllers', ['ngStorage'])
 
 .controller('LoanEditCtrl', function($scope, $http, User, Loans, $state, $stateParams) {
 
-  Loans.getLoan($stateParams.loan_id).success(function(loan) {
-    $scope.loan = loan.loan
+  Loans.getLoan($stateParams.loan_id, true).then(function(loan) {
+    $scope.loan = angular.copy(loan)
   })
 
   $scope.editLoan = function(){
     Loans.editLoan($scope.loan).success(function(loan){
-      console.log("antes de dar o state.go")
+
       $state.go('loans')
-      console.log($state.go('loans'))
-      console.log("depois de dar o state.go")
     })
   }
 })

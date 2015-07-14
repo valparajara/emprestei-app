@@ -3,7 +3,7 @@ angular.module('starter.factories', [])
 // .constant('BaseApiUrl', "http://emprestei-api.herokuapp.com/")
 .constant('BaseApiUrl', "http://localhost:3000/")
 
-.service('Loans', function($http, User, BaseApiUrl) {
+.service('Loans', function($http, $q, User, BaseApiUrl) {
 
   var Loans = {
     initialize: function () {
@@ -24,20 +24,39 @@ angular.module('starter.factories', [])
     },
 
     getLoan: function (id) {
-      return $http.get(BaseApiUrl + "/loans/" + id + ".json", { params: { access_token: User.access_token } })
+      var selectedLoan
+
+      angular.forEach(Loans.collection, function (loan) {
+        if (loan.id == id) {
+          selectedLoan = loan
+        }
+      })
+
+      return $q.when(selectedLoan)
     },
 
     editLoan: function (loan) {
 
       return $http.put(BaseApiUrl + "/loans/" + loan.id + ".json", { loan: loan, access_token: User.access_token})
                   .success(function (data) {
-                    console.log("entrou aqui")
-                      console.log(loan.id)
-                      console.log(Loans.collection)
 
+                    Loans.getLoan(loan.id).then(function (collectionLoan) {
+                      angular.extend(collectionLoan, data.loan)
+                    })
+                  })
+                  .error(function(response){
+                    console.error(response.data);
+                  })
+    },
+
+    setReturned: function(id){
+
+       return $http.get(BaseApiUrl + "/loans/" + id + "/return.json", { params: {access_token: User.access_token} })
+                .success(function (data) {
                     for (i = 0; i < Loans.collection.length; i ++){
-                      if (Loans.collection[i].id == loan.id){
-                        Loans.collection.splice(i, 1, data.loan)
+                      console.log(Loans.collection)
+                      if (Loans.collection[i].id == id){
+                        Loans.collection.splice(i, 1)
                       }
                     }
                   })
