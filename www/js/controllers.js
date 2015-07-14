@@ -25,7 +25,7 @@ angular.module('starter.controllers', ['ngStorage'])
       $state.go('loans')
 
     }, function() {
-      $scope.error = 'Falha ao tentar acessar';
+      $scope.error = 'Falha ao tentar acessar. Verifique seu email e senha.';
     })
   }
 })
