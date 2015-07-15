@@ -1,5 +1,10 @@
 /* Empty. Add your own CSS if you like */
 
+@font-face {
+   font-family: 'Boogaloo';
+   src: url('fonts/Boogaloo-Regular.ttf') format('truetype');
+}
+
 body, a, p, h1, h2 {
   font-family: 'Boogaloo', Arial, serif;
   font-weight: 400;
