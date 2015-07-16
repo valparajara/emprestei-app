@@ -5,9 +5,13 @@
    src: url('fonts/Boogaloo-Regular.ttf') format('truetype');
 }
 
-body, a, p, h1, h2 {
+h1{
   font-family: 'Boogaloo', Arial, serif;
   font-weight: 400;
+}
+
+body, a, p, i{
+  font-family: 'Boogaloo', Arial, serif;
 }
 
 .gray {
@@ -52,13 +56,20 @@ body, a, p, h1, h2 {
   color: #FFE5CC;
   font-family: 'Boogaloo', Arial, serif;
   font-weight: 400;
+  font-size: 20px;
 }
 
 .center {
   text-align: center;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 
 .bar-footer {
   height: 49px;
 }
+
+.bar .title.title-center {
+  text-align: center;
+  font-size: 30px;
+}
+
