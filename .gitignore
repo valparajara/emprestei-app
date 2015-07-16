@@ -8,3 +8,5 @@ temp/
 *.DS_Store
 *.log
 *.swp
+my-release-key.keystore
+android.apk
