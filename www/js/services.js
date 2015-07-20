@@ -54,7 +54,6 @@ angular.module('starter.factories', [])
        return $http.get(BaseApiUrl + "/loans/" + id + "/return.json", { params: {access_token: User.access_token} })
                 .success(function (data) {
                     for (i = 0; i < Loans.collection.length; i ++){
-                      console.log(Loans.collection)
                       if (Loans.collection[i].id == id){
                         Loans.collection.splice(i, 1)
                       }
